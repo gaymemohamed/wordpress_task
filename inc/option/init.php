@@ -12,17 +12,22 @@ function baseThemeOption()
 {
     // init options
     
-    Container::make( 'term_meta', __( 'Readers Properties' ) )
-    ->where( 'term_taxonomy', '=', 'readers-department' )
+    Container::make( 'post_meta', __( 'Member Additions' ) )
+    ->where( 'post_type', '=', 'member'  )
     ->add_fields( array(
-		Field::make( 'image', 'custom_tax_thumb', __( 'Thumbnail' ) ),
-    ));
-
-    Container::make( 'post_meta', __( 'Properties' ) )
-    ->where( 'post_type', 'IN', array('nader' , 'ramadan' , 'elsala' , 'telawa') )
-    ->add_fields( array(
-		Field::make( 'text', 'custom_link', __( 'لينك السورة أو الفيديو' ) ),
-		Field::make( 'text', 'custom_title', __( 'اسم المقرئ' ) ),
+		Field::make( 'text', 'pos_company', __( 'Position In Company' ) ),
+        Field::make( 'complex', 'package', __( 'Social Media Links' ) )
+			->add_fields( array(
+                Field::make( 'select', 'select_social', __( 'Choose Social' ) )
+				->set_options( array(
+                    ''             => '',
+                    'text-secondary' => __( 'Github' ),
+                    'text-primary' => __( 'Linkedin' ),
+                    'text-warning' => __( 'Facebook' ),
+                    
+                    ) ),
+                    Field::make( 'text', 'social_link', __( 'Social Link' ) ),
+		) )
     ) );
     
     Container::make( 'post_meta', __( 'اعدادات المقاطع' ) )

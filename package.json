@@ -1,0 +1,13 @@
+{
+  "name": "kaiiLab Task",
+  "version": "1.0.0",
+  "description": "kaiiLab Task",
+  "scripts": {
+    "start": "sass assets/sass/app.scss style.css -w"
+  },
+  "author": "Gamal Mohamed",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.52.1"
+  }
+}

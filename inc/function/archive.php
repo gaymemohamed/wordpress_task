@@ -36,18 +36,19 @@ if(!function_exists('baseArchiveTeam')){
 			'items_list_navigation' => baseLang('Team list navigation','قائمة الفريق'),
 			'filter_items_list'     => baseLang('Filter Team list','تصفيه الفريق'),
 		);
-
+		
 		$args = array(
 			'label'                 => baseLang('member','عضو'),
 			'labels'                => $labels,
-			'supports'              => array('title', 'editor','thumbnail'),
+			'supports'              => array('title', 'editor','thumbnail' ,'excerpt'),
 			'hierarchical'          => true,
 			'public'                => true,
 			'show_ui'               => true,
 			'show_in_menu'          => true,
 			'menu_position'         => 5,
-			'menu_icon'             => 'dashicons-networking',
+			'show_in_rest'       => true,
 			'show_in_admin_bar'     => true,
+			'menu_icon'             => 'dashicons-groups',
 			'show_in_nav_menus'     => true,
 			'can_export'            => true,
 			'has_archive'           => true,
