@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "kaiiLab Task",
   "scripts": {
-    "start": "sass assets/sass/app.scss style.css -w"
+    "start": "sass assets/sass/main.scss style.css -w"
   },
   "author": "Gamal Mohamed",
   "license": "ISC",

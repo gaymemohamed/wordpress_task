@@ -15,36 +15,27 @@ function baseThemeOption()
     Container::make( 'post_meta', __( 'Member Additions' ) )
     ->where( 'post_type', '=', 'member'  )
     ->add_fields( array(
-		Field::make( 'text', 'pos_company', __( 'Position In Company' ) ),
+		// Field::make( 'text', 'pos_company', __( 'Position In Company' ) ),
+    Field::make( 'select', 'pos_company', __( 'Choose Position' ) )
+      ->set_options( array(
+        ''             => '',
+          'CEO' => __( 'CEO' ),
+          'Project Manager' => __( 'Project Manager' ),
+          'Developer' => __( 'Developer' ),
+      ) ),
         Field::make( 'complex', 'package', __( 'Social Media Links' ) )
 			->add_fields( array(
                 Field::make( 'select', 'select_social', __( 'Choose Social' ) )
 				->set_options( array(
                     ''             => '',
-                    'text-secondary' => __( 'Github' ),
-                    'text-primary' => __( 'Linkedin' ),
-                    'text-warning' => __( 'Facebook' ),
-                    
+                    'github' => 'Github' ,
+                    'linkedin' => 'Linkedin' ,
+                    'facebook' => 'Facebook' ,
                     ) ),
                     Field::make( 'text', 'social_link', __( 'Social Link' ) ),
 		) )
     ) );
     
-    Container::make( 'post_meta', __( 'اعدادات المقاطع' ) )
-    ->where( 'post_type', 'IN', array('clip' , 'explanation' ))
-    ->add_fields( array(
-		Field::make( 'text', 'custom_v_link', __( 'لينك الفيديو' )),
-    Field::make( 'text', 'custom_v_title', __( 'اسم المقرئ' ) ),
-    ));
-
-    Container::make( 'post_meta', __( 'اعدادات السورة' ))
-    ->where( 'post_type', '=', 'reader')
-    ->add_fields( array(
-		// Field::make( 'text', 'custom_s_link', __( 'لينك السورة' )),
-    Field::make( 'file', 'custom_s_link', __( 'ارفع السورة' ) )
-	    ->set_value_type( 'url' )
-    ));
-
    
 
 }

@@ -1,0 +1,116 @@
+body{
+    font-family: "Lato",sans-serif;
+    font-weight: 400;
+    /* font-size: 16px; */
+    line-height: 1.7;
+    color: $color-gray-dark;
+}
+
+.heading-primary{
+    color: $color-white;
+    text-transform: uppercase;
+    
+    
+    /* this fix of the move up after animation */
+    backface-visibility: hidden;
+    margin-bottom: 6rem;
+
+    text-align: center;
+    &--main{
+        display: block;
+        font-size: 5.5rem;
+        font-weight: 400;
+        letter-spacing: 3rem;
+    
+        animation-name: MoveToRight;
+        animation-duration: 1s ;
+        animation-timing-function: ease-out;
+        /* 
+        1- take this time then animation run   
+        2- animation repeat 3 times    
+        3- the way will animation proceed  URL:https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function
+    
+        animation-delay: 3s;
+        animation-iteration-count: 3;
+        animation-timing-function: linear ; */
+
+        @include respond (phone){
+            font-size: 3.5rem;
+            letter-spacing: 2rem;
+        }
+    }
+    &--sub{
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.74rem;
+    
+        /* animation-name: MoveToLeft;
+        animation-duration: 1s;
+        animation-timing-function: ease-in; */
+        animation: MoveToLeft 1s ease-in;
+        margin-bottom: 4rem;
+        @include respond (phone){
+            letter-spacing: 1rem;
+        }
+    }
+    
+}
+
+.heading-secondary-span{
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-image: linear-gradient(to right, $color-primary-light,$color-primary-dark);
+    display: inline-block;
+    letter-spacing: .2rem;
+    // important skill
+    -webkit-background-clip: text;
+    color: transparent;
+    transition: all .2s;
+    @include respond(tab-port){
+        font-size: 2rem;
+    }
+    @include respond(phone){
+        font-size: 1.5rem;
+    }
+}
+.heading-secondary{
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-image: linear-gradient(to right, $color-primary-light,$color-primary-dark);
+    display: inline-block;
+    letter-spacing: .2rem;
+    // important skill
+    -webkit-background-clip: text;
+    color: transparent;
+    transition: all .2s;
+    @include respond(tab-port){
+        font-size: 3rem;
+    }
+    @include respond(phone){
+        font-size: 2.5rem;
+    }
+
+    &:hover{
+        // new skill
+        transform: skewY(2deg) skewX(15deg) scale(1.1);
+        box-shadow: .5rem 1rem 2rem linear-gradient($color-black,.2);
+    }
+}
+
+
+.heading-tertiary{
+    font-size: $default-font-size;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.paragraph{
+    font-size: $default-font-size;
+
+    &:not(:last-child){
+        margin-bottom: 3rem ;
+    }
+}

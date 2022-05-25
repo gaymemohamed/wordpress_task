@@ -53,27 +53,29 @@ if( ! function_exists('baseLangRtl') ){
 	}
 }
 
-// Get Theme Options
-if( !function_exists('getOption')){
-	function getOption( $en, $ar ){
+// Social Media
+if( ! function_exists( 'BaseSocialMedia' ) ){
+    function BaseSocialMedia() {
 
-		if( is_rtl() ){
+		$options = get_option( 'baseOption' );
+		$socials = $options['socials'];
 
-			$val   = !(empty( $ar )) ? baseCheck(get_theme_mod( $ar, '')) : '';
-			$value = ( $val || isset($val) || !(empty($val)) ? $val : '' );
-
-		}else{
-
-			$val   = !(empty( $en )) ? baseCheck(get_theme_mod( $en, '')) : '';
-			$value = ( $val || isset($val) || !(empty($val)) ? $val : '' );
-
+        if( ! empty( $socials ) ) {
+            echo '<ul class="list-unstyled base-footer-socials mb-5">';
+            foreach ( $socials as $social ) {
+                echo '
+                    <li>
+                        <a target="_blank" href="'.$social['social_url'].'">
+                            <i class="'.$social['social_icon'].'"></i>
+                        </a>
+                    </li>
+                ';
+            }
+            echo '</ul>';
 		}
 
-		return wp_kses_post( $value );
-
-	}
+    }
 }
-
 // Get Image Url
 if( !function_exists('getImageUrl') ){
 	function getImageUrl ( $option, $size = 'full' ) {
@@ -104,31 +106,6 @@ if( !function_exists('getImageUrl') ){
 		return $url;
 	}
 }
-
-// Social Media
-if( ! function_exists( 'BaseSocialMedia' ) ){
-    function BaseSocialMedia() {
-
-		$options = get_option( 'baseOption' );
-		$socials = $options['socials'];
-
-        if( ! empty( $socials ) ) {
-            echo '<ul class="list-unstyled base-footer-socials mb-5">';
-            foreach ( $socials as $social ) {
-                echo '
-                    <li>
-                        <a target="_blank" href="'.$social['social_url'].'">
-                            <i class="'.$social['social_icon'].'"></i>
-                        </a>
-                    </li>
-                ';
-            }
-            echo '</ul>';
-		}
-
-    }
-}
-
 // Wpml Lang Switcher
 if( ! function_exists('BaseLangSwitcher' ) ){
     function BaseLangSwitcher($skip_missing = 0, $div_id = "langselector") {
@@ -139,13 +116,13 @@ if( ! function_exists('BaseLangSwitcher' ) ){
                 foreach ($languages as $l) {
                     if (!$l['active']) {
 
-                        echo '<li><a href="' . $l['url'] . '" data-ajaxify-url="true"> <span class="icon-lang"></span><span>';
+                        echo '<li><a href="' . $l['url'] . '" data-ajaxify-url="true"> <span>';
                         if ($l['language_code'] == 'en') {
                             echo 'English';
                         } else {
                             echo 'العربية';
                         }
-						echo '</span></a></li>';
+						echo '</span> '.baseGetIconSymbol("icon-lang", "svgIcon is-lg" , 25 , 25).'</a></li>';
 
                     }
                 }
@@ -153,6 +130,21 @@ if( ! function_exists('BaseLangSwitcher' ) ){
 
         }
     }
+}
+
+// Svg Icons
+if (!function_exists('baseGetIconSymbol')) {
+	function baseGetIconSymbol( $icon, $class, $width = 20, $height = 20){
+
+		$format = '<svg fill="currentColor" class="'.$class.'" height="'.$height.'" width="'.$width.'" aria-hidden="true" role="img" focusable="false"> <use xlink:href="#'.$icon.'"></use>  </svg>';
+
+		// $svg  = preg_replace( '/^<svg /', $repl, trim( $arr[ $icon ] ) );
+		// $svg  = preg_replace( "/([\n\t]+)/", ' ', $svg );
+		// $svg  = preg_replace( '/>\s*</', '><', $svg );
+
+		return $format;
+
+	}
 }
 
 // Aniamte
@@ -236,12 +228,12 @@ if( ! function_exists( 'BaseThumb' ) ) {
 		$id = wp_get_attachment_url( get_post_thumbnail_id( get_the_ID() ) );
 		if ( has_post_thumbnail() && ! empty( $id ) ) {
 			?>
-				<img alt="<?php echo get_the_title( get_the_ID() )?>" data-src="<?php the_post_thumbnail_url($size); ?>">
+				<img alt="<?php echo get_the_title( get_the_ID() )?>" src="<?php the_post_thumbnail_url($size); ?>">
 			<?php
 		}else{
 			?>
 			<div class="re-image-notFound">
-				<img class="is-hidden-image" alt="" data-src="">
+				<img class="is-hidden-image" alt="" src="">
 				<?php echo BaseGetIconSvg('crack', 50); ?>
 			</div>
 			<?php
@@ -252,7 +244,6 @@ if( ! function_exists( 'BaseThumb' ) ) {
 		return $output;
 	}
 }
-
 // Date
 if( ! function_exists( 'BaseDate' ) ) {
     function BaseDate(){
@@ -296,6 +287,75 @@ if (!function_exists('baseGetIconSvg')) {
 		}else{
 			return '';
 		}
+	}
+}
+
+
+// Check Parent Category Has Children
+if( !function_exists('is_category_has_children') ){
+	function is_category_has_children() {
+
+		$term = get_queried_object();
+		$parent_term_id = $term->term_id;
+
+		if ( !(term_exists( $parent_term_id, 'department' )) ) {
+			return;
+		}
+
+		$args = array(
+			'taxonomy' => 'department',
+			'orderby' => 'name',
+			'order' => 'ASC',
+			'hide_empty' => 1,
+			'child_of' => (int) $parent_term_id,
+		);
+		$children = get_terms($args);
+
+		if( empty($children) ){
+			return false;
+		}
+
+		return true;
+
+	}
+}
+
+
+// Get Parent Category Children
+if( !function_exists('BaseGetCategoryChildren') ){
+	function BaseGetCategoryChildren($args = null) {
+
+		$term = get_queried_object();
+		$parent_term_id = $term->term_id;
+
+		if ( !(term_exists( $parent_term_id, 'department' )) ) {
+			return;
+		}
+		$children = get_terms($args);
+
+		return $children;
+
+	}
+}
+
+// Get Array Value
+if( !function_exists('getArrVal')){
+	function getArrVal( $en, $ar ){
+
+		if( is_rtl() ){
+
+			$val   = !(empty( $ar )) ? $ar : '';
+			$value = ( $val || isset($val) || !(empty($val)) ? $val : '' );
+
+		}else{
+
+			$val   = !(empty( $en )) ? $en : '';
+			$value = ( $val || isset($val) || !(empty($val)) ? $val : '' );
+
+		}
+
+		return wp_kses_post( $value );
+
 	}
 }
 
@@ -784,35 +844,26 @@ if ( ! function_exists( 'is_woocommerce_activated' ) ) {
 	}
 }
 
+// Get Theme Options
+if( !function_exists('getOption')){
+	function getOption( $en, $ar ){
 
-// Get Image Url
-if( !function_exists('baseGetImageUrl') ){
-	function baseGetImageUrl ( $image ) {
-		if ( is_array( $image ) ){
+		if( is_rtl() ){
 
-			$imageOpt   = $image['id'];
-			if( ! empty( $imageOpt ) ) {
-				$attachment = wp_get_attachment_image_src( $imageOpt ,'full' );
-				$url = $attachment[0];
-			}else{
-				$url = '';
-			}
+			$val   = !(empty( $ar )) ? baseCheck(get_theme_mod( $ar, '')) : '';
+			$value = ( $val || isset($val) || !(empty($val)) ? $val : '' );
 
-		}elseif( is_int($image) ){
-			if( ! empty( $image ) ) {
-				$attachment = wp_get_attachment_image_src( $image ,'full' );
-				$url = $attachment[0];
-			}else{
-				$url = '';
-			}
 		}else{
-			$url   = $image;
+
+			$val   = !(empty( $en )) ? baseCheck(get_theme_mod( $en, '')) : '';
+			$value = ( $val || isset($val) || !(empty($val)) ? $val : '' );
+
 		}
 
-		return $url;
+		return wp_kses_post( $value );
+
 	}
 }
-
 // Get Link
 if( !function_exists('baseGetLink') ){
 	function baseGetLink ( $slug ) {
@@ -1109,3 +1160,8 @@ add_filter( 'get_the_archive_title', function ($title) {
    });
 
 
+
+   function themename_enqueue_style() {
+    wp_enqueue_style( 'themename-style', get_stylesheet_uri() ); 
+}
+add_action( 'wp_enqueue_scripts', 'themename_enqueue_style' );

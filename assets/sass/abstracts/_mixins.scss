@@ -1,0 +1,47 @@
+@mixin clearfix{
+    &::after{
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+ 
+// Media Query Manager
+
+/*
+0-600         To Mobile Screens
+600 - 900     To Tablet Screens
+900 - 1200    To landscape Tablet screens
+1200 - 1800   To normal screens 
+1800 - &      To big screens
+
+$breakpoints
+- Phones
+- tab-port
+- tab-land
+- big desktops 
+
+
+ORDER : Base > Typography > General Layout + Grid > Page Layout + Components
+*/
+@mixin respond($breakpoint) {
+    // em 600/16 = 37.5em
+    @if $breakpoint == phone { 
+        @media(max-width: 37.5em){@content}; //600px
+    }
+    
+    // em 600/16 = 37.5em
+    @if $breakpoint == tab-port {
+        @media(max-width: 56.25em){@content}; //900px
+    }
+
+    @if $breakpoint == tab-land {
+        @media(max-width: 75em){@content}; //1200px
+    }
+
+    @if $breakpoint == big-desktop {
+        @media(min-width: 112.5em){@content}; //1800px and bigger
+    }    
+
+}

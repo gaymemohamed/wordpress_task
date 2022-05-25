@@ -1,0 +1,27 @@
+/*!
+ * 
+ *  Theme Name: KaiiLab Task 
+ *  Theme URI: 
+ *  Author: Gamal Mohamed  
+ *  Description: 
+ *  Requires at least: 4.7 
+ *  Requires PHP: 7.4
+ *  Version: 1.0.0 
+ *  License: 
+ *  License URI: 
+ *  Text Domain: KaiiLab Task 
+ *  Tags: 
+ *  
+ */
+ 
+@import "abstracts/variables";
+@import "abstracts/mixins";
+@import "base/base";
+@import "components/card";
+@import "layout/grid";
+@import "base/topography.scss";
+@import "components/popup";
+@import "abstracts/utilities.scss";
+@import "components/buttons";
+@import "components/card-single";
+@import "components/socials";
